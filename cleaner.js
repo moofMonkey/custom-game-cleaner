@@ -17,7 +17,7 @@ function grabUsedContent(path) {
 		return []
 	if (!fs.statSync(path).isDirectory()) {
 		var contents = fs.readFileSync(path, "utf8"),
-			re = /(\0|")([a-zA-Z0-9_/]+?\.v(xml|pcf|js|mdl|mesh|agrp|anim|mat|tex|snd|sndevts|))(\0|")/g,
+			re = /(\0|")([a-zA-Z0-9_/]+?\.v(xml|pcf|js|mdl|mesh|agrp|anim|mat|tex|snd|sndevts))(\0|")/g,
 			res = new Set(),
 			m
 
