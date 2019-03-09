@@ -17,16 +17,13 @@ function grabUsedContent(path) {
 		return []
 	if (!fs.statSync(path).isDirectory()) {
 		var contents = fs.readFileSync(path, "utf8"),
-			m = true,
 			re = /(\0|")([a-zA-Z0-9_/]+?\.v(xml|pcf|js|mdl|mesh|agrp|anim|mat|tex|snd|sndevts))(\0|")/g,
-			res = new Set()
+			res = new Set(),
+			m
 
-		while (m) {
-			m = re.exec(contents)
-			if (m) {
-				res.add(m[2])
-				re.lastIndex-- // so that it'll correctly parse \0 multiple times
-			}
+		while (m = re.exec(contents)) {
+			res.add(m[2])
+			re.lastIndex-- // so that it'll correctly parse \0 multiple times
 		}
 		return [...res]
 	}
