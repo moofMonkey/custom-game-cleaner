@@ -76,9 +76,7 @@ function clean(dir, deps) {
 		if (used.length !== prev_size) {
 			all_files.forEach(file_name => {
 				if (!readed.includes(file_name) && used.includes(file_name)) {
-					var set = new Set(used)
-					grabUsedContent(file_name + "_c").forEach(a => set.add(a))
-					used = [...set]
+					used = [...new Set([...used, ...grabUsedContent(file_name + "_c")])]
 					readed.push(file_name)
 				}
 			})
