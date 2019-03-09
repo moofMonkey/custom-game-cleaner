@@ -17,7 +17,7 @@ function grabUsedContent(path) {
 		return []
 	if (!fs.statSync(path).isDirectory()) {
 		var contents = fs.readFileSync(path, "utf8"),
-			re = /(\0|")([a-zA-Z0-9_/]+?\.v(xml|pcf|js|mdl|mesh|agrp|anim|mat|tex|snd|sndevts))(\0|")/g,
+			re = /(\0|")([a-zA-Z0-9_/]+?\.v(xml|pcf|js|mdl|mesh|agrp|anim|mat|tex|snd|sndevts|))(\0|")/g,
 			res = new Set(),
 			m
 
@@ -70,15 +70,13 @@ function clean(dir, deps) {
 		readed = []
 	function iter(prev_size = -1) {
 		console.log(prev_size)
-		if (used.length !== prev_size) {
-			all_files.forEach(file_name => {
-				if (!readed.includes(file_name) && used.includes(file_name)) {
-					used = [...new Set([...used, ...grabUsedContent(file_name + "_c")])]
-					readed.push(file_name)
-				}
-			})
+		all_files.filter(file_name => !readed.includes(file_name) && used.includes(file_name)).forEach(file_name => {
+			used = [...new Set([...used, ...grabUsedContent(file_name + "_c")])]
+			readed.push(file_name)
+		})
+		if (used.length !== prev_size)
 			iter(used.length)
-		} else
+		else
 			all_files.forEach(file_name => {
 				if (!used.includes(file_name))
 					fs.unlinkSync(file_name + "_c")
