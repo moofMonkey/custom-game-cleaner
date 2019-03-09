@@ -31,7 +31,7 @@ function grabUsedContent(path) {
 		return [...res]
 	}
 
-	return flatten(fs.readdirSync(path).map(file => grabUsedContent(path + "/" + file))).filter(a => a !== false)
+	return flatten(fs.readdirSync(path).map(file => grabUsedContent(path + "/" + file)))
 }
 
 /**
